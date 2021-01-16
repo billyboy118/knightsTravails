@@ -23,4 +23,6 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 
 board = Board.new
 board.create_board
-p board
+p board.board[1]
+
+#p board.board[0].position
