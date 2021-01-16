@@ -19,8 +19,8 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 
 # horizontal first and then vertical with coordinates ---> ^
 
-knight = Knight.new([0, 0] [1, 2])
+# knight = Knight.new([0, 0] [1, 2])
 
-
-
-
+board = Board.new
+board.create_board
+p board

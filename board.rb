@@ -5,8 +5,8 @@
 # squares to build up the board
 class Square
 
-  def initialize
-    @position = nil
+  def initialize(place)
+    @position = place
     @current_piece = nil
 
     @front = nil
@@ -21,12 +21,24 @@ end
 class Board
 
   def initialize
-    @board = create_board
+    @board = []
   end
 
   def create_board
+    8.times do |v_num|
+      8.times do |h_num|
+        @board.push(Square.new([h_num, v_num]))
+      end
+    end
+    link_squares
+  end
 
-    square = Square.new()
+  def link_squares
+    corners = []
+
+    @board.each do |value|
+
+    end
   end
 
 end
