@@ -26,4 +26,5 @@ board.create_board
 
 # p board.board[50].back.current_piece
 
+# now we gjhave this
 puts board.find_square([7, 6]).right
