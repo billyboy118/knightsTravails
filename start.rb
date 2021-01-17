@@ -4,6 +4,8 @@ require_relative 'board'
 
 # The Knight class to demonstrate the piece moving around the board
 class Knight
+  attr_accessor :start, :end_pos, :forward, :direction
+
   def initialize(start_pos, end_pos)
     @start = start_pos
     @end_pos = end_pos
@@ -18,13 +20,13 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 # coordinates = gets.chomp
 
 # horizontal first and then vertical with coordinates ---> ^
-
-# knight = Knight.new([0, 0] [1, 2])
-
+knight = Knight.new([0, 0], [1, 2])
+shrimp = Knight.new([4, 5], [1, 2])
 board = Board.new
 board.create_board
 
-# p board.board[50].back.current_piece
+board.calculate_knight(knight)
+board.calculate_knight(shrimp)
+#board.find_square([7, 6]).current_piece = 'Knight'
 
-# now we gjhave this
-puts board.find_square([7, 6]).right
+puts board.find_square([0, 0]).current_piece

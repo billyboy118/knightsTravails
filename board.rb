@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-
+#require_relative 'start'
 
 # squares to build up the board
 class Square
@@ -65,7 +65,6 @@ class Board
     value.back = board[index - 8]
     value.left = board[index - 1]
     value.right = board[index + 1]
-    value
   end
 
   def right(value, index)
@@ -106,5 +105,10 @@ class Board
       return square if square.position == value
     end
   end
+
+  def calculate_knight(knight)
+    find_square(knight.start).current_piece = knight
+  end
+
 
 end
