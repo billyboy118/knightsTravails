@@ -4,11 +4,13 @@
 
 # squares to build up the board
 class Square
-  attr_accessor :position, :front, :back, :left, :right, :current_piece
+  attr_accessor :position, :front, :back, :left, :right, :current_piece, :visited, :end_square
 
   def initialize(place)
     @position = place
     @current_piece = nil
+    @visited = false
+    @end_square = false
 
     @front = nil
     @back = nil
@@ -107,8 +109,22 @@ class Board
   end
 
   def calculate_knight(knight)
-    find_square(knight.start).current_piece = knight
+    start = find_square(knight.start)
+    start.current_piece = knight
+    find_square(knight.end_pos).end_square = true
+    paths(start, knight)
   end
 
+  def paths(start, knight)
+    queue = [start]
+    while queue.length < 0
+
+
+
+
+    end
+
+
+  end
 
 end
