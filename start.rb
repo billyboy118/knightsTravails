@@ -21,7 +21,7 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 # coordinates = gets.chomp
 
 # horizontal first and then vertical with coordinates ---> ^
-knight = Knight.new([0, 0], [1, 0])
+knight = Knight.new([0, 0], [0, 0])
 #shrimp = Knight.new([4, 5], [1, 2])
 board = Board.new
 board.create_board
@@ -30,5 +30,5 @@ board.calculate_knight(knight)
 #board.calculate_knight(shrimp)
 #board.find_square([7, 6]).current_piece = 'Knight'
 
-puts board.find_square([0, 1]).current_piece
+puts board.find_square([0, 0]).current_piece
 puts board.find_square([1, 0]).end_square

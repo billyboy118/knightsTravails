@@ -67,6 +67,7 @@ class Board
     value.back = board[index - 8]
     value.left = board[index - 1]
     value.right = board[index + 1]
+    value
   end
 
   def right(value, index)
@@ -81,6 +82,7 @@ class Board
     when [0, 0]
       value.front = board[8]
       value.right = board[1]
+      value.left = nil # square.new 'hello'
     when [7, 0]
       value.front = board[15]
       value.left = board[6]
@@ -117,14 +119,23 @@ class Board
 
   def paths(start, knight)
     queue = [start]
-    while queue.length < 0
+    while queue.length.positive?
+      node = queue.pop
+      p node.left
 
 
+     #return puts 'hello' if node.end_square == true
+ 
+      #queue.unshift(find_nodes(node)).flatten
 
-
+      # here I will pull the first node out and then I will need to create a new method which will 
+      # find and queue the next 8 nodes refer to youtube video for example
     end
-
-
   end
+
+  def find_nodes(nodes)
+    temp_arr = []
+    temp
+  end 
 
 end
