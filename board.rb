@@ -51,6 +51,8 @@ class Board
 
   def bottom(value, index)
     value.front = board[index + 8]
+    value.back = Square.new(nil)
+    value.back.back = Square.new(nil)
     value.left = board[index - 1]
     value.right = board[index + 1]
     value
@@ -59,11 +61,15 @@ class Board
   def left(value, index)
     value.front = board[index + 8]
     value.back = board[index - 8]
+    value.left = Square.new(nil)
+    value.left.left = Square.new(nil)
     value.right = board[index + 1]
     value
   end
 
   def top(value, index)
+    value.front = Square.new(nil)
+    value.front.front = Square.new(nil)
     value.back = board[index - 8]
     value.left = board[index - 1]
     value.right = board[index + 1]
@@ -74,6 +80,8 @@ class Board
     value.front = board[index + 8]
     value.back = board[index - 8]
     value.left = board[index - 1]
+    value.right = Square.new(nil)
+    value.right.right = Square.new(nil)
     value
   end
 
@@ -81,17 +89,32 @@ class Board
     case value.position
     when [0, 0]
       value.front = board[8]
+      value.back = Square.new(nil)
+      value.back.back = Square.new(nil)
+      value.left = Square.new(nil)
+      value.left.left = Square.new(nil)
       value.right = board[1]
-      value.left = nil # square.new 'hello'
     when [7, 0]
       value.front = board[15]
+      value.back = Square.new(nil)
+      value.back.back = Square.new(nil)
       value.left = board[6]
+      value.right = Square.new(nil)
+      value.right.right = Square.new(nil)
     when [0, 7]
+      value.front = Square.new(nil)
+      value.front.front = Square.new(nil)
       value.back = board[48]
+      value.left = Square.new(nil)
+      value.left.left = Square.new(nil)
       value.right = board[57]
     when [7, 7]
+      value.front = Square.new(nil)
+      value.front.front = Square.new(nil)
       value.back = board[55]
       value.left = board[62]
+      value.right = Square.new(nil)
+      value.right.right = Square.new(nil)
     end
     value
   end
@@ -121,21 +144,17 @@ class Board
     queue = [start]
     while queue.length.positive?
       node = queue.pop
-      p node.left
+      queue.unshift(find_nodes(node)).flatten
+      
 
-
-     #return puts 'hello' if node.end_square == true
- 
-      #queue.unshift(find_nodes(node)).flatten
-
-      # here I will pull the first node out and then I will need to create a new method which will 
-      # find and queue the next 8 nodes refer to youtube video for example
     end
   end
 
-  def find_nodes(nodes)
+  def find_nodes(node)
     temp_arr = []
-    temp
+    temp_arr
+    return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil
+
   end 
 
 end
