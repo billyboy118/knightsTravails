@@ -145,16 +145,55 @@ class Board
     while queue.length.positive?
       node = queue.pop
       queue.unshift(find_nodes(node)).flatten
-      
-
+      return
     end
   end
 
   def find_nodes(node)
     temp_arr = []
+    temp_arr.push(front_left(node))
+    temp_arr.push(front_right(node))
+    temp_arr.push(back_left(node))
+    temp_arr.push(back_right(node))
+    temp_arr.push(left_front(node))
+    temp_arr.push(left_back(node))
+    temp_arr.push(right_front(node))
+    temp_arr.push(right_back(node))
     temp_arr
-    return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil
+  end
 
-  end 
+  def front_left(node)
+   #if node.front.front.left.nil? && node.front.front.right 
+  end
+
+  def front_right(node)
+    #if node.front.front.left.nil? && node.front.front.right 
+  end
+
+  def back_left(node)
+
+  end
+
+  def back_right(node)
+
+  end
+
+  def left_front(node)
+    return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil?
+  end
+
+  def left_back(node)
+    return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil?
+  end
+
+  def right_front(node)
+
+  end
+
+  def right_back(node)
+
+  end
+
+
 
 end
