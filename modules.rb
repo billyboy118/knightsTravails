@@ -13,14 +13,13 @@ module MakeBoard
 
   def link_squares
     board.each_with_index do |value, index|
-      body(value, index) #if value.position[0].positive? && value.position[0] < 7
-      bottom(value, index) if value.position[1].zero? # && ![0, 7].include?(index)
-      left(value, index) if value.position[0].zero? # && ![0, 7].include?(index)
-      top(value, index) if value.position[1] == 7 # && ![0, 7].include?(index)
-      right(value, index) if value.position[0] == 7 # && ![0, 7].include?(index)
+      body(value, index) 
+      bottom(value, index) if value.position[1].zero?
+      left(value, index) if value.position[0].zero?
+      top(value, index) if value.position[1] == 7
+      right(value, index) if value.position[0] == 7
       corners(value) if [[0, 0], [7, 0], [0, 7], [7, 7]].include?(value.position)
     end
-    puts board[60].position
   end
 
   def bottom(value, index)
@@ -47,7 +46,6 @@ module MakeBoard
     value.right = board[index + 1]
     value.front = Square.new(nil)
     value.front.front = Square.new(nil)
-
   end
 
   def right(value, index)
@@ -100,7 +98,4 @@ module MakeBoard
     value.right = board[index + 1]
     value
   end
-
-
-
 end
