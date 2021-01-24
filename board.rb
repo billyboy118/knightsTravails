@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-#require_relative 'start'
+require_relative 'modules'
 
 # squares to build up the board
 class Square
@@ -17,114 +17,16 @@ class Square
     @left = nil
     @right = nil
   end
-
-
 end
 
 # This class is used to create a board using the squares from th Square class
 class Board
+  include MakeBoard
   attr_accessor :board
 
   def initialize
     @board = []
-  end
-
-  def create_board
-    8.times do |v_num|
-      8.times do |h_num|
-        @board.push(Square.new([h_num, v_num]))
-      end
-    end
-    link_squares
-  end
-
-  def link_squares
-    @board.each_with_index do |value, index|
-      bottom(value, index) if value.position[1].zero? && ![0, 7].include?(index)
-      left(value, index) if value.position[0].zero? && ![0, 7].include?(index)
-      top(value, index) if value.position[1] == 7 && ![0, 7].include?(index)
-      right(value, index) if value.position[0] == 7 && ![0, 7].include?(index)
-      corners(value) if [[0, 0], [7, 0], [0, 7], [7, 7]].include?(value.position)
-      body(value, index) if value.position[0].positive? && value.position[0] < 7
-    end
-  end
-
-  def bottom(value, index)
-    value.front = board[index + 8]
-    value.back = Square.new(nil)
-    value.back.back = Square.new(nil)
-    value.left = board[index - 1]
-    value.right = board[index + 1]
-    value
-  end
-
-  def left(value, index)
-    value.front = board[index + 8]
-    value.back = board[index - 8]
-    value.left = Square.new(nil)
-    value.left.left = Square.new(nil)
-    value.right = board[index + 1]
-    value
-  end
-
-  def top(value, index)
-    value.front = Square.new(nil)
-    value.front.front = Square.new(nil)
-    value.back = board[index - 8]
-    value.left = board[index - 1]
-    value.right = board[index + 1]
-    value
-  end
-
-  def right(value, index)
-    value.front = board[index + 8]
-    value.back = board[index - 8]
-    value.left = board[index - 1]
-    value.right = Square.new(nil)
-    value.right.right = Square.new(nil)
-    value
-  end
-
-  def corners(value)
-    case value.position
-    when [0, 0]
-      value.front = board[8]
-      value.back = Square.new(nil)
-      value.back.back = Square.new(nil)
-      value.left = Square.new(nil)
-      value.left.left = Square.new(nil)
-      value.right = board[1]
-    when [7, 0]
-      value.front = board[15]
-      value.back = Square.new(nil)
-      value.back.back = Square.new(nil)
-      value.left = board[6]
-      value.right = Square.new(nil)
-      value.right.right = Square.new(nil)
-    when [0, 7]
-      value.front = Square.new(nil)
-      value.front.front = Square.new(nil)
-      value.back = board[48]
-      value.left = Square.new(nil)
-      value.left.left = Square.new(nil)
-      value.right = board[57]
-    when [7, 7]
-      value.front = Square.new(nil)
-      value.front.front = Square.new(nil)
-      value.back = board[55]
-      value.left = board[62]
-      value.right = Square.new(nil)
-      value.right.right = Square.new(nil)
-    end
-    value
-  end
-
-  def body(value, index)
-    value.front = board[index + 8]
-    value.back = board[index - 8]
-    value.left = board[index - 1]
-    value.right = board[index + 1]
-    value
+    create_board(board)
   end
 
   def find_square(value)
@@ -142,32 +44,60 @@ class Board
 
   def paths(start, knight)
     queue = [start]
-    while queue.length.positive?
+    order = []
+      while queue.length.positive?
       node = queue.pop
-      queue.unshift(find_nodes(node)).flatten
-      return
+      
+      order.push(node.position)
+      p order
+
+      queue.unshift(find_nodes(node)).flatten!
+      puts queue[1]
     end
   end
 
   def find_nodes(node)
     temp_arr = []
     temp_arr.push(front_left(node))
-    temp_arr.push(front_right(node))
-    temp_arr.push(back_left(node))
-    temp_arr.push(back_right(node))
-    temp_arr.push(left_front(node))
-    temp_arr.push(left_back(node))
-    temp_arr.push(right_front(node))
-    temp_arr.push(right_back(node))
+    #temp_arr.push(front_right(node))
+    # temp_arr.push(back_left(node))
+    # temp_arr.push(back_right(node))
+    # temp_arr.push(left_front(node))
+    # temp_arr.push(left_back(node))
+    # temp_arr.push(right_front(node))
+    # temp_arr.push(right_back(node))
+    #puts temp_arr[1]
     temp_arr
   end
 
   def front_left(node)
-   #if node.front.front.left.nil? && node.front.front.right 
+    node = node.front.front.left
+    puts node.front.position
+    if node.nil? || node.position.nil?
+      puts 'aaaaaa'
+      nil
+    elsif node.end_square == true
+      puts 'you made it'
+      node
+    else
+      puts 'ffffff'
+      node
+    end
   end
 
   def front_right(node)
-    #if node.front.front.left.nil? && node.front.front.right 
+    if node.front.front.right.nil? || node.front.front.right.position.nil?
+     # node = nil
+      puts 'aaaaaa'
+    elsif node.front.front.right.end_square == true
+      puts 'you made it'
+      return
+    else
+      node = node.front.front.right
+      puts 'ffffff'
+    end
+    #puts node
+    node
   end
 
   def back_left(node)
@@ -179,11 +109,11 @@ class Board
   end
 
   def left_front(node)
-    return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil?
+    #return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil?
   end
 
   def left_back(node)
-    return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil?
+    #return puts 'it  works' if node.left.left.front.nil? || node.left.left.front.position.nil?
   end
 
   def right_front(node)
