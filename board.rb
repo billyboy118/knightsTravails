@@ -28,7 +28,8 @@ class Board
 
   def initialize
     @board = []
-    @counter = 0
+    @counter = []
+    @cycle = 1
     create_board(board)
   end
 
@@ -52,14 +53,27 @@ class Board
     while queue.length.positive?
       node = queue.pop
       next if node.nil? || node.position.nil?
+
       i += 1
+      p i
+      return puts "you have found it number #{@cycle}" if node.end_square == true
+
       order.push(node.position)
-    
+      if i == @counter[@cycle - 1]
+        @cycle += 1
+        i = 0
+        
+      end 
       
-      return puts "you have found it number #{i}" if node.end_square == true
       
+
       queue.unshift(find_nodes(node)).flatten!
-     
+
+    
+      # have got to the plave where I find the route I just need to extract the number of turns and the
+      #c orrect route, I need to count the nodes in the layers then count the nodes coming out of the stack
+      # when the counter reaches zero due to the number of items coming out of the stack that will be one layer
+
     end
   end
 
@@ -74,19 +88,22 @@ class Board
     temp_arr.push(right_front(node))
     temp_arr.push(right_back(node))
     count_nodes(temp_arr)
-    
     temp_arr.reverse!
   end
 
   def count_nodes(array)
+    i = 0
     arr = []
     array.each do |item|
       next if item.nil?
 
+      i += 1 unless item.position.nil?
       arr.push(item.position) unless item.position.nil?
     end
-    @counter += 1
-    p arr
+    @counter.push(i)
+   p @counter
+   # p i
+    #p arr
   end
 
 
@@ -97,7 +114,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+      #puts "you have found it in #{@cycle} go"
       node
     else
       node
@@ -109,7 +126,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+      #puts "you have found it in #{@cycle} go"
       node
     else
       node
@@ -122,7 +139,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+      #puts "you have found it in #{@cycle} go"
       node
     else
       node
@@ -135,7 +152,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+      #puts "you have found it in #{@cycle} go"
       node
     else
       node
@@ -148,7 +165,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+      #puts "you have found it in #{@cycle} go"
       node
     else
       node
@@ -161,7 +178,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+      #puts "you have found it in #{@cycle} go"
       node
     else
       node
@@ -174,7 +191,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+     # puts "you have found it in #{@cycle} go"
       node
     else
       node
@@ -187,7 +204,7 @@ class Board
     if node.nil? || node.position.nil?
       nil
     elsif node.end_square == true
-      puts "you have found it in #{@counter} go"
+      #puts "you have found it in #{@cycle} go"
       node
     else
       node

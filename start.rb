@@ -22,7 +22,7 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 # coordinates = gets.chomp
 # horizontal first and then vertical with coordinates ---> ^
 
-knight = Knight.new([3, 0], [6, 7])
+knight = Knight.new([3, 0], [2, 6])
 
 board = Board.new
 
