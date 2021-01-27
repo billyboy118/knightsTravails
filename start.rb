@@ -13,6 +13,7 @@ class Knight
     # current position???
     @forward = 2
     @direction = 1
+    @squares_visited = []
   end
 end
 
@@ -22,11 +23,12 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 # coordinates = gets.chomp
 # horizontal first and then vertical with coordinates ---> ^
 
-knight = Knight.new([3, 0], [2, 6])
+# knight = Knight.new([3, 0], [2, 6])
 
 board = Board.new
 
-board.calculate_knight(knight)
+
+board.calculate_knight([3, 0], [2, 6])
 
 # a = board.find_square([3, 7])
 # a.front = Square.new(nil)

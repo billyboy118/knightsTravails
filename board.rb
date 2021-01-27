@@ -39,14 +39,13 @@ class Board
     end
   end
 
-  def calculate_knight(knight)
-    start = find_square(knight.start)
-    start.current_piece = knight
-    find_square(knight.end_pos).end_square = true
-    paths(start, knight)
+  def calculate_knight(start, finish)
+    start = find_square(start)
+    find_square(finish).end_square = true
+    paths(start)
   end
 
-  def paths(start, knight)
+  def paths(start)
     queue = [start]
     order = []
     i = 0
@@ -56,6 +55,7 @@ class Board
 
       i += 1
       p i
+      p @cycle
       return puts "you have found it number #{@cycle}" if node.end_square == true
 
       order.push(node.position)
@@ -64,15 +64,13 @@ class Board
         i = 0
         
       end 
-      
-      
+      # I am giving up on the layered apprroach what I will do  now is create multipe knights at 
+      # node points, from here I will be able to store where each individual knight has been
 
       queue.unshift(find_nodes(node)).flatten!
 
     
-      # have got to the plave where I find the route I just need to extract the number of turns and the
-      #c orrect route, I need to count the nodes in the layers then count the nodes coming out of the stack
-      # when the counter reaches zero due to the number of items coming out of the stack that will be one layer
+
 
     end
   end
