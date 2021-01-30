@@ -40,10 +40,12 @@ class Board
   end
 
   def calculate_knight(start, finish)
+    @@finish = finish
     start = find_square(start)
     find_square(finish).end_square = true
+
     start.current_piece = Knight.new
-    start.current_piece.squares_visited.push(start.position)
+    start.current_piece.squares_visited = start.position
     puts start.current_piece.squares_visited
     paths(start)
   end
@@ -51,23 +53,19 @@ class Board
   def paths(start)
     queue = [start]
     order = []
-    i = 0
+
     while queue.length.positive?
       node = queue.pop
       next if node.nil? || node.position.nil?
 
-      #i += 1
-      #p i
-     # p @cycle
-      return puts "you have found it number #{@cycle}" if node.end_square == true
 
-      order.push(node.position)
-      if i == @counter[@cycle - 1]
-        @cycle += 1
-        i = 0
+      if node.end_square == true
+        node.current_piece.squares_visited.push(node.position)
+        return p node.current_piece.squares_visited
       end
-      # I am giving up on the layered apprroach what I will do  now is create multipe knights at
-      # node points, from here I will be able to store where each individual knight has been
+      order.push(node.position)
+
+
 
       queue.unshift(find_nodes(node)).flatten!
 
@@ -80,41 +78,26 @@ class Board
   def find_nodes(node)
     temp_arr = []
     temp_arr.push(front_left(node))
-    # temp_arr.push(front_right(node))
+    temp_arr.push(front_right(node))
     # temp_arr.push(back_left(node))
     # temp_arr.push(back_right(node))
     # temp_arr.push(left_front(node))
     # temp_arr.push(left_back(node))
     # temp_arr.push(right_front(node))
     # temp_arr.push(right_back(node))
-    count_nodes(temp_arr)
     temp_arr.reverse!
-  end
-
-  def count_nodes(array)
-    i = 0
-    arr = []
-    array.each do |item|
-      next if item.nil?
-
-      i += 1 unless item.position.nil?
-      arr.push(item.position) unless item.position.nil?
-    end
-    @counter.push(i)
-   #p @counter
   end
 
   def journey(node, new_node)
     knight = Knight.new
     new_node.current_piece = knight
+    knight.squares_visited.push(node.current_piece.squares_visited)
     knight.squares_visited.push(node.position)
   end
 
   def front_left(node)
     new_node = node.front.front.left
     if new_node.nil? || new_node.position.nil?
-      node.current_piece.squares_visited.push([0, 6])
-      puts node.current_piece.squares_visited
       nil
     elsif new_node.end_square == true
       journey(node, new_node)
@@ -125,17 +108,18 @@ class Board
     end
   end
 
-  # def front_right(node)
-  #   node = node.front.front.right
-  #   if node.nil? || node.position.nil?
-  #     nil
-  #   elsif node.end_square == true
-  #     node
-  #   else
-  #     node
-  #   end
-  #   node
-  # end
+  def front_right(node)
+    new_node = node.front.front.right
+    if new_node.nil? || new_node.position.nil?
+      nil
+    elsif new_node.end_square == true
+      journey(node, new_node)
+      new_node
+    else
+      journey(node, new_node)
+      new_node
+    end
+  end
 
   # def back_left(node)
   #   node = node.back.back.left

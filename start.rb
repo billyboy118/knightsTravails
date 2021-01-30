@@ -22,7 +22,7 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 
 board = Board.new
 
-board.calculate_knight([3, 0], [2, 6])
+board.calculate_knight([0, 0], [1, 6])
 
 # a = board.find_square([3, 7])
 # a.front = Square.new(nil)
