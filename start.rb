@@ -1,7 +1,11 @@
 # frozen_string_literal: false
 
 require_relative 'board'
+require 'colorize'
 
+def clear
+  print "\e[2J\e[f"
+end
 
 # The Knight class to demonstrate the piece moving around the board
 class Knight
@@ -11,27 +15,24 @@ class Knight
     @squares_visited = []
   end
 end
+clear
 
-puts 'This is Knights Travails please enter your start and end coordinates'
-# I can add some validation here to ensure correct coordinates are
-# added would use 2 gets commands one for the start and one for the end
-# coordinates = gets.chomp
-# horizontal first and then vertical with coordinates ---> ^
+def start_game
+  puts 'This is Knights Travails, it uses 0-7 to represent a 8x8 chess grid and will the shortest route the knight can go from A to B '.yellow
+  print 'Where would you like to start [?, ?]: '.red
+  start = convert(gets.chomp)
+  p start
+  print 'Where would you like to finish [?, ?]: '.red
+  finish = convert(gets.chomp)
+  p finish
+  board = Board.new
+  board.calculate_knight(start, finish)
+end 
 
-# knight = Knight.new([3, 0], [2, 6])
+def convert(str)
+  arr = []
+  str.split(/\W+/).each { |number| arr.push(number.to_i) }
+  arr
+end
 
-board = Board.new
-
-board.calculate_knight([3, 0], [6, 7])
-
-# a = board.find_square([3, 7])
-# a.front = Square.new(nil)
-# a.front.front = Square.new(nil)
-# puts a.front.front #.front.front.left.position
-
-# board.calculate_knight(shrimp)
-# board.find_square([7, 6]).current_piece = 'Knight'
-
-# puts board.find_square([3, 0]).current_piece
-# puts board.find_square([1, 0]).end_square
-# shrimp = Knight.new([4, 5], [1, 2])
+start_game
