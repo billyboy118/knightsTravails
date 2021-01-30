@@ -42,6 +42,9 @@ class Board
   def calculate_knight(start, finish)
     start = find_square(start)
     find_square(finish).end_square = true
+    start.current_piece = Knight.new
+    start.current_piece.squares_visited.push(start.position)
+    puts start.current_piece.squares_visited
     paths(start)
   end
 
@@ -53,23 +56,22 @@ class Board
       node = queue.pop
       next if node.nil? || node.position.nil?
 
-      i += 1
-      p i
-      p @cycle
+      #i += 1
+      #p i
+     # p @cycle
       return puts "you have found it number #{@cycle}" if node.end_square == true
 
       order.push(node.position)
       if i == @counter[@cycle - 1]
         @cycle += 1
         i = 0
-        
-      end 
-      # I am giving up on the layered apprroach what I will do  now is create multipe knights at 
+      end
+      # I am giving up on the layered apprroach what I will do  now is create multipe knights at
       # node points, from here I will be able to store where each individual knight has been
 
       queue.unshift(find_nodes(node)).flatten!
 
-    
+      
 
 
     end
@@ -78,13 +80,13 @@ class Board
   def find_nodes(node)
     temp_arr = []
     temp_arr.push(front_left(node))
-    temp_arr.push(front_right(node))
-    temp_arr.push(back_left(node))
-    temp_arr.push(back_right(node))
-    temp_arr.push(left_front(node))
-    temp_arr.push(left_back(node))
-    temp_arr.push(right_front(node))
-    temp_arr.push(right_back(node))
+    # temp_arr.push(front_right(node))
+    # temp_arr.push(back_left(node))
+    # temp_arr.push(back_right(node))
+    # temp_arr.push(left_front(node))
+    # temp_arr.push(left_back(node))
+    # temp_arr.push(right_front(node))
+    # temp_arr.push(right_back(node))
     count_nodes(temp_arr)
     temp_arr.reverse!
   end
@@ -99,117 +101,111 @@ class Board
       arr.push(item.position) unless item.position.nil?
     end
     @counter.push(i)
-   p @counter
-   # p i
-    #p arr
+   #p @counter
   end
 
-
+  def journey(node, new_node)
+    knight = Knight.new
+    new_node.current_piece = knight
+    knight.squares_visited.push(node.position)
+  end
 
   def front_left(node)
-    #puts node.position
-    node = node.front.front.left
-    if node.nil? || node.position.nil?
+    new_node = node.front.front.left
+    if new_node.nil? || new_node.position.nil?
+      node.current_piece.squares_visited.push([0, 6])
+      puts node.current_piece.squares_visited
       nil
-    elsif node.end_square == true
-      #puts "you have found it in #{@cycle} go"
-      node
+    elsif new_node.end_square == true
+      journey(node, new_node)
+      new_node
     else
-      node
+      journey(node, new_node)
+      new_node
     end
   end
 
-  def front_right(node)
-    node = node.front.front.right
-    if node.nil? || node.position.nil?
-      nil
-    elsif node.end_square == true
-      #puts "you have found it in #{@cycle} go"
-      node
-    else
-      node
-    end
-    node
-  end
+  # def front_right(node)
+  #   node = node.front.front.right
+  #   if node.nil? || node.position.nil?
+  #     nil
+  #   elsif node.end_square == true
+  #     node
+  #   else
+  #     node
+  #   end
+  #   node
+  # end
 
-  def back_left(node)
-    node = node.back.back.left
-    if node.nil? || node.position.nil?
-      nil
-    elsif node.end_square == true
-      #puts "you have found it in #{@cycle} go"
-      node
-    else
-      node
-    end
-    node
-  end
+  # def back_left(node)
+  #   node = node.back.back.left
+  #   if node.nil? || node.position.nil?
+  #     nil
+  #   elsif node.end_square == true
+  #     node
+  #   else
+  #     node
+  #   end
+  #   node
+  # end
 
-  def back_right(node)
-    node = node.back.back.right
-    if node.nil? || node.position.nil?
-      nil
-    elsif node.end_square == true
-      #puts "you have found it in #{@cycle} go"
-      node
-    else
-      node
-    end
-    node
-  end
+  # def back_right(node)
+  #   node = node.back.back.right
+  #   if node.nil? || node.position.nil?
+  #     nil
+  #   elsif node.end_square == true
+  #     node
+  #   else
+  #     node
+  #   end
+  #   node
+  # end
 
-  def left_front(node)
-    node = node.left.left.front
-    if node.nil? || node.position.nil?
-      nil
-    elsif node.end_square == true
-      #puts "you have found it in #{@cycle} go"
-      node
-    else
-      node
-    end
-    node
-  end
+  # def left_front(node)
+  #   node = node.left.left.front
+  #   if node.nil? || node.position.nil?
+  #     nil
+  #   elsif node.end_square == true
+  #     node
+  #   else
+  #     node
+  #   end
+  #   node
+  # end
 
-  def left_back(node)
-    node = node.left.left.back
-    if node.nil? || node.position.nil?
-      nil
-    elsif node.end_square == true
-      #puts "you have found it in #{@cycle} go"
-      node
-    else
-      node
-    end
-    node
-  end
+  # def left_back(node)
+  #   node = node.left.left.back
+  #   if node.nil? || node.position.nil?
+  #     nil
+  #   elsif node.end_square == true
+  #     node
+  #   else
+  #     node
+  #   end
+  #   node
+  # end
 
-  def right_front(node)
-    node = node.right.right.front
-    if node.nil? || node.position.nil?
-      nil
-    elsif node.end_square == true
-     # puts "you have found it in #{@cycle} go"
-      node
-    else
-      node
-    end
-    node
-  end
+  # def right_front(node)
+  #   node = node.right.right.front
+  #   if node.nil? || node.position.nil?
+  #     nil
+  #   elsif node.end_square == true
+  #     node
+  #   else
+  #     node
+  #   end
+  #   node
+  # end
 
-  def right_back(node)
-    node = node.right.right.back
-    if node.nil? || node.position.nil?
-      nil
-    elsif node.end_square == true
-      #puts "you have found it in #{@cycle} go"
-      node
-    else
-      node
-    end
-    node
-  end
-
-
-
+  # def right_back(node)
+  #   node = node.right.right.back
+  #   if node.nil? || node.position.nil?
+  #     nil
+  #   elsif node.end_square == true
+  #     node
+  #   else
+  #     node
+  #   end
+  #   node
+  # end
 end

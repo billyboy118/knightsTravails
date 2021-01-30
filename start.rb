@@ -5,14 +5,9 @@ require_relative 'board'
 
 # The Knight class to demonstrate the piece moving around the board
 class Knight
-  attr_accessor :start, :end_pos, :forward, :direction
+  attr_accessor :squares_visited
 
-  def initialize(start_pos, end_pos)
-    @start = start_pos
-    @end_pos = end_pos
-    # current position???
-    @forward = 2
-    @direction = 1
+  def initialize()
     @squares_visited = []
   end
 end
@@ -26,7 +21,6 @@ puts 'This is Knights Travails please enter your start and end coordinates'
 # knight = Knight.new([3, 0], [2, 6])
 
 board = Board.new
-
 
 board.calculate_knight([3, 0], [2, 6])
 
