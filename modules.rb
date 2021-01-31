@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 # module to make the board for board class
-module MakeBoard
+module MakeBoard # rubocop:disable Metrics/ModuleLength
   def create_board(board)
     8.times do |v_num|
       8.times do |h_num|
@@ -11,9 +11,9 @@ module MakeBoard
     link_squares
   end
 
-  def link_squares
+  def link_squares # rubocop:disable Metrics/AbcSize
     board.each_with_index do |value, index|
-      body(value, index) 
+      body(value, index)
       bottom(value, index) if value.position[1].zero?
       left(value, index) if value.position[0].zero?
       top(value, index) if value.position[1] == 7
@@ -22,42 +22,58 @@ module MakeBoard
     end
   end
 
-  def bottom(value, index)
+  def fronts(value, index)
     value.front = board[index + 8]
+  end
+
+  def backs(value, index)
+    value.front = board[index + 8]
+  end
+
+  def lefts(value, index)
+    value.front = board[index + 8]
+  end
+
+  def rights(value, index)
+    value.front = board[index + 8]
+  end
+
+  def bottom(value, index)
+    fronts(value, index)
     value.back = Square.new(nil)
     value.back.back = Square.new(nil)
-    value.left = board[index - 1]
-    value.right = board[index + 1]
+    lefts(value, index)
+    rights(value, index)
     value
   end
 
   def left(value, index)
-    value.front = board[index + 8]
-    value.back = board[index - 8]
+    fronts(value, index)
+    backs(value, index)
     value.left = Square.new(nil)
     value.left.left = Square.new(nil)
-    value.right = board[index + 1]
+    rights(value, index)
     value
   end
 
   def top(value, index)
-    value.back = board[index - 8]
-    value.left = board[index - 1]
-    value.right = board[index + 1]
+    backs(value, index)
+    lefts(value, index)
+    rights(value, index)
     value.front = Square.new(nil)
     value.front.front = Square.new(nil)
   end
 
   def right(value, index)
-    value.front = board[index + 8]
-    value.back = board[index - 8]
-    value.left = board[index - 1]
+    fronts(value, index)
+    backs(value, index)
+    lefts(value, index)
     value.right = Square.new(nil)
     value.right.right = Square.new(nil)
     value
   end
 
-  def corners(value)
+  def corners(value) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     case value.position
     when [0, 0]
       value.front = board[8]

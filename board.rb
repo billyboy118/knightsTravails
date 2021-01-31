@@ -24,7 +24,6 @@ class Board
   include MakeBoard
   attr_accessor :board
 
-
   def initialize
     @board = []
     @counter = []
@@ -73,7 +72,7 @@ class Board
     end
   end
 
-  def find_nodes(node)
+  def find_nodes(node) # rubocop:disable Metrics/AbcSize
     temp_arr = []
     nodes = [node.front.front.left, node.front.front.right, node.back.back.left, node.back.back.right,
              node.left.left.front, node.left.left.back, node.right.right.front, node.right.right.back]
