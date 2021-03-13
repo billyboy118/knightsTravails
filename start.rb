@@ -27,7 +27,7 @@ def start_game
   p finish
   board = Board.new
   board.calculate_knight(start, finish)
-end 
+end
 
 def convert(str)
   arr = []

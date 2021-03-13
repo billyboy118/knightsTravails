@@ -2,14 +2,14 @@
 
 # module to make the board for board class
 module MakeBoard # rubocop:disable Metrics/ModuleLength
-  def create_board(board)
-    8.times do |v_num|
-      8.times do |h_num|
-        board.push(Square.new([h_num, v_num]))
-      end
-    end
-    link_squares
-  end
+  # def create_board(board)
+  #   8.times do |v_num|
+  #     8.times do |h_num|
+  #       board.push(Square.new([h_num, v_num]))
+  #     end
+  #   end
+  #   link_squares
+  # end
 
   def link_squares # rubocop:disable Metrics/AbcSize
     board.each_with_index do |value, index|

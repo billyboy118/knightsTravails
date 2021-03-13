@@ -12,10 +12,10 @@ class Square
     @visited = false
     @end_square = false
 
-    @front = nil
-    @back = nil
-    @left = nil
-    @right = nil
+    # @front = nil
+    # @back = nil
+    # @left = nil
+    # @right = nil
   end
 end
 
@@ -29,6 +29,14 @@ class Board
     @counter = []
     @cycle = 1
     create_board(board)
+  end
+
+  def create_board(board)
+    (0..7).each do |vertical|
+      (0..7).each do |horizontal|
+        board.push(Square.new([horizontal, vertical]))
+      end
+    end
   end
 
   def find_square(value)
