@@ -105,20 +105,32 @@ class Board
     knight_moves.each do |move|
       temp_arr.push([node.position[0] + move[0], node.position[1] + move[1]])
     end
-    clean_data(temp_arr)
+    available_moves = clean_data(temp_arr)
+    analyse_moves(available_moves, node)
   end
 
   def clean_data(array)
-    temp_arr = []
+    moves = []
     array.each do |item|
-      temp_arr.push(item) if (item[0] >= 0 && item[0] < 8) && (item[1] >= 0 && item[1] < 8)
+      moves.push(item) if (item[0] >= 0 && item[0] < 8) && (item[1] >= 0 && item[1] < 8)
     end
+    assign_moves(moves)
   end
 
+  def assign_moves(moves)
+    assigned_moves = []
+    moves.each do |move|
+      assigned_moves.push(find_square(move))
+    end
+    assigned_moves
+  end
 
-
-
-
+  def analyse_moves(available_moves, node)
+    # I need to link the available moves to the square
+    available_moves.each do |move|
+      journey(node, move)
+    end
+  end
   # def find_node(node) # rubocop:disable Metrics/AbcSize
   #   temp_arr = []
 
@@ -130,17 +142,17 @@ class Board
   #   temp_arr.reverse!
   # end
 
-  def splint(node, new_node)
-    if new_node.nil? || new_node.position.nil?
-      nil
-    elsif new_node.end_square == true
-      journey(node, new_node)
-      new_node
-    else
-      journey(node, new_node)
-      new_node
-    end
-  end
+  # def splint(node, new_node)
+  #   if new_node.nil? || new_node.position.nil?
+  #     nil
+  #   elsif new_node.end_square == true
+  #     journey(node, new_node)
+  #     new_node
+  #   else
+  #     journey(node, new_node)
+  #     new_node
+  #   end
+  # end
 
   def journey(node, new_node)
     knight = Knight.new
