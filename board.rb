@@ -1,4 +1,6 @@
 # frozen_string_literal: false
+require_relative 'visuals'
+
 
 # squares to build up the board
 class Square
@@ -6,7 +8,7 @@ class Square
 
   def initialize(place)
     @position = place
-    @current_piece = nil
+    @current_piece = " "
     @end_square = false
   end
 end
@@ -15,6 +17,7 @@ end
 class Board
   attr_accessor :board
 
+  include ShowBoard
   def initialize
     @board = []
     @counter = []
@@ -67,6 +70,8 @@ class Board
         puts "  #{index}:   #{place}"
       end
     end
+    show_board(Board.new, node.current_piece.squares_visited)
+    
   end
 
   def find_positions(node)
