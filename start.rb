@@ -11,7 +11,7 @@ end
 class Knight
   attr_accessor :squares_visited
 
-  def initialize()
+  def initialize
     @squares_visited = []
   end
 end

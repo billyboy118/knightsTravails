@@ -1,27 +1,18 @@
 # frozen_string_literal: false
 
-require_relative 'modules'
-
 # squares to build up the board
 class Square
-  attr_accessor :position, :front, :back, :left, :right, :current_piece, :visited, :end_square
+  attr_accessor :position, :current_piece, :end_square
 
   def initialize(place)
     @position = place
     @current_piece = nil
-    @visited = false
     @end_square = false
-
-    # @front = nil
-    # @back = nil
-    # @left = nil
-    # @right = nil
   end
 end
 
-# This class is used to create a board using the squares from th Square class
+# This class is used to create a board using the squares from the Square class
 class Board
-  include MakeBoard
   attr_accessor :board
 
   def initialize
@@ -57,35 +48,14 @@ class Board
 
   def paths(start)
     queue = [start]
-    # order = []
     while queue.length.positive?
       node = queue.pop
-      puts node
+
       return return_value(node) if node.end_square == true
 
       queue.unshift(find_positions(node)).flatten!
-      # order.push(node.position)
     end
-  end   
-
-
-
-
-
-  # def paths(start)
-  #   queue = [start]
-  #   order = []
-  #   while queue.length.positive?
-  #     node = queue.pop
-  #     next if node.nil? || node.position.nil?
-
-  #     return return_value(node) if node.end_square == true
-
-  #     order.push(node.position)
-  #     queue.unshift(find_nodes(node)).flatten!
-  #   end
-  # end
-
+  end
 
   def return_value(node)
     node.current_piece.squares_visited.push(node.position)
@@ -126,33 +96,10 @@ class Board
   end
 
   def analyse_moves(available_moves, node)
-    # I need to link the available moves to the square
     available_moves.each do |move|
       journey(node, move)
     end
   end
-  # def find_node(node) # rubocop:disable Metrics/AbcSize
-  #   temp_arr = []
-
-  #   nodes = [node.front.front.left, node.front.front.right, node.back.back.left, node.back.back.right,
-  #            node.left.left.front, node.left.left.back, node.right.right.front, node.right.right.back]
-  #   nodes.each do |new_node|
-  #     temp_arr.push(splint(node, new_node))
-  #   end
-  #   temp_arr.reverse!
-  # end
-
-  # def splint(node, new_node)
-  #   if new_node.nil? || new_node.position.nil?
-  #     nil
-  #   elsif new_node.end_square == true
-  #     journey(node, new_node)
-  #     new_node
-  #   else
-  #     journey(node, new_node)
-  #     new_node
-  #   end
-  # end
 
   def journey(node, new_node)
     knight = Knight.new
