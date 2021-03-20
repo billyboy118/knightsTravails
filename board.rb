@@ -15,7 +15,7 @@ end
 
 # This class is used to create a board using the squares from the Square class
 class Board
-  attr_accessor :board
+   attr_accessor :board
 
   include ShowBoard
   def initialize
