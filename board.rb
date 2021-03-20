@@ -1,6 +1,4 @@
 # frozen_string_literal: false
-require_relative 'visuals'
-
 
 # squares to build up the board
 class Square
@@ -8,16 +6,15 @@ class Square
 
   def initialize(place)
     @position = place
-    @current_piece = " "
+    @current_piece = ' '
     @end_square = false
   end
 end
 
 # This class is used to create a board using the squares from the Square class
 class Board
-   attr_accessor :board
+  attr_accessor :board
 
-  include ShowBoard
   def initialize
     @board = []
     @counter = []
@@ -63,15 +60,19 @@ class Board
   def return_value(node)
     node.current_piece.squares_visited.push(node.position)
     puts "You made it in #{node.current_piece.squares_visited.length - 1} moves! Here's your path:"
+    show_path(node)
+    ShowBoard.show_board(Board.new, node.current_piece.squares_visited)
+  end
+
+  def show_path(node)
+    letters = { 0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F', 6 => 'G', 7 => 'H' }
     node.current_piece.squares_visited.each_with_index do |place, index|
       if index.zero?
-        puts "Start: #{place}"
+        puts "Start: #{letters[place[0]]}, #{place[1] + 1} "
       else
-        puts "  #{index}:   #{place}"
+        puts "  #{index}: #{letters[place[0]]}, #{place[1] + 1}"
       end
     end
-    show_board(Board.new, node.current_piece.squares_visited)
-    
   end
 
   def find_positions(node)
